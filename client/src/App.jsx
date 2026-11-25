@@ -3,7 +3,9 @@ import Header from "./components/Header";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Home from "./pages/Home";
 import Notes from "./pages/Notes";
+import Chat from "./pages/Chat";
 
 export default function App() {
   return (
@@ -14,7 +16,23 @@ export default function App() {
           path="/"
           element={
             <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/notes"
+          element={
+            <ProtectedRoute>
               <Notes />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <Chat />
             </ProtectedRoute>
           }
         />

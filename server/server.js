@@ -9,6 +9,14 @@ const protect = require("./middleware/auth");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const rateLimit = require("express-rate-limit");
+const chatRouter = require("./routes/chat");
+
+const chatLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 10, // 10 chat requests per minute per IP
+  message: { error: "Too many messages. Please slow down." },
+});
 
 // Middleware
 app.use(
@@ -24,6 +32,7 @@ app.use(cookieParser());
 app.get("/", (req, res) => res.send("API is running"));
 app.use("/api/auth", authRouter);
 app.use("/api/notes", protect, notesRouter);
+app.use("/api/chat", protect, chatLimiter, chatRouter);
 
 mongoose
   .connect(process.env.MONGO_URI)
