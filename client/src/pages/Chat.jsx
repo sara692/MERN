@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import PageBackground from "../components/PageBackground";
 import {
   Box,
   Button,
@@ -68,111 +69,119 @@ export default function Chat() {
   };
 
   return (
-    <Container maxWidth="md" sx={{ mt: 3 }}>
-      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        <Typography variant="h5" sx={{ flexGrow: 1 }}>
-          AI Chat
-        </Typography>
-        <Button
-          onClick={handleClear}
-          disabled={messages.length === 0 || sending}
-        >
-          Clear chat
-        </Button>
-      </Box>
-
-      <Paper
-        variant="outlined"
-        sx={{
-          height: "calc(100vh - 290px)",
-          minHeight: 300,
-          overflowY: "auto",
-          p: 2,
-          display: "flex",
-          flexDirection: "column",
-          gap: 1.5,
-        }}
-      >
-        {messages.length === 0 && (
-          <Typography color="text.secondary">
-            Say hello to start the conversation.
+    <>
+      <PageBackground variant="lavender" />
+      <Container maxWidth="md" sx={{ mt: 3 }}>
+        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+          <Typography variant="h5" sx={{ flexGrow: 1 }}>
+            AI Chat
           </Typography>
-        )}
-
-        {messages.map((m) => (
-          <Box
-            key={m._id}
-            sx={{
-              alignSelf: m.role === "user" ? "flex-end" : "flex-start",
-              maxWidth: "80%",
-              px: 2,
-              py: 1,
-              borderRadius: 2,
-              bgcolor: m.role === "user" ? "primary.main" : "action.hover",
-              color:
-                m.role === "user" ? "primary.contrastText" : "text.primary",
-              wordBreak: "break-word",
-              "& p": { m: 0 },
-              "& pre": {
-                overflowX: "auto",
-                p: 1.5,
-                borderRadius: 1,
-                bgcolor: "action.selected",
-              },
-            }}
+          <Button
+            onClick={handleClear}
+            disabled={messages.length === 0 || sending}
           >
-            {m.role === "assistant" ? (
-              <ReactMarkdown>{m.content}</ReactMarkdown>
-            ) : (
-              <Typography sx={{ whiteSpace: "pre-wrap" }}>
-                {m.content}
-              </Typography>
-            )}
-          </Box>
-        ))}
+            Clear chat
+          </Button>
+        </Box>
 
-        {sending && (
-          <Box
-            sx={{
-              alignSelf: "flex-start",
-              display: "flex",
-              gap: 1,
-              alignItems: "center",
-            }}
-          >
-            <CircularProgress size={18} />
-            <Typography color="text.secondary">Thinking...</Typography>
-          </Box>
-        )}
-
-        <div ref={bottomRef} />
-      </Paper>
-
-      <Box
-        component="form"
-        onSubmit={handleSend}
-        sx={{ display: "flex", gap: 1, mt: 2 }}
-      >
-        <TextField
-          fullWidth
-          multiline
-          maxRows={4}
-          placeholder="Type a message (Enter to send, Shift+Enter for a new line)"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) handleSend(e);
+        <Paper
+          variant="outlined"
+          sx={{
+            height: "calc(100vh - 290px)",
+            minHeight: 300,
+            overflowY: "auto",
+            p: 2,
+            display: "flex",
+            flexDirection: "column",
+            gap: 1.5,
+            bgcolor: "rgba(255,255,255,0.78)",
+            borderColor: "divider",
           }}
-          slotProps={{ htmlInput: { maxLength: 2000 } }}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          disabled={sending || !input.trim()}
         >
-          Send
-        </Button>
-      </Box>
-    </Container>
+          {messages.length === 0 && (
+            <Typography color="text.secondary">
+              Say hello to start the conversation.
+            </Typography>
+          )}
+
+          {messages.map((m) => (
+            <Box
+              key={m._id}
+              sx={{
+                alignSelf: m.role === "user" ? "flex-end" : "flex-start",
+                maxWidth: "80%",
+                px: 2,
+                py: 1,
+                borderRadius:
+                  m.role === "user"
+                    ? "18px 18px 4px 18px"
+                    : "18px 18px 18px 4px",
+                bgcolor: m.role === "user" ? "#F9D5DC" : "#E1F2E4",
+                color: "text.primary",
+                boxShadow: "0 2px 8px rgba(74,85,69,0.08)",
+                wordBreak: "break-word",
+                "& p": { m: 0 },
+                "& pre": {
+                  overflowX: "auto",
+                  p: 1.5,
+                  borderRadius: 1,
+                  bgcolor: "rgba(255,255,255,0.7)",
+                },
+              }}
+            >
+              {m.role === "assistant" ? (
+                <ReactMarkdown>{m.content}</ReactMarkdown>
+              ) : (
+                <Typography sx={{ whiteSpace: "pre-wrap" }}>
+                  {m.content}
+                </Typography>
+              )}
+            </Box>
+          ))}
+
+          {sending && (
+            <Box
+              sx={{
+                alignSelf: "flex-start",
+                display: "flex",
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress size={18} />
+              <Typography color="text.secondary">Thinking...</Typography>
+            </Box>
+          )}
+
+          <div ref={bottomRef} />
+        </Paper>
+
+        <Box
+          component="form"
+          onSubmit={handleSend}
+          sx={{ display: "flex", gap: 1, mt: 2 }}
+        >
+          <TextField
+            fullWidth
+            multiline
+            maxRows={4}
+            placeholder="Type a message (Enter to send, Shift+Enter for a new line)"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) handleSend(e);
+            }}
+            slotProps={{ htmlInput: { maxLength: 2000 } }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={sending || !input.trim()}
+          >
+            Send
+          </Button>
+        </Box>
+      </Container>
+    </>
   );
 }

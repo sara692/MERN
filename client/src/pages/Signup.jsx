@@ -3,6 +3,7 @@ import { Link as RouterLink, Navigate, useNavigate } from "react-router-dom";
 import { Box, Button, Link, Paper, TextField, Typography } from "@mui/material";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
+import AuthLayout from "../components/AuthLayout";
 
 export default function Signup() {
   const { user, signup } = useAuth();
@@ -29,13 +30,12 @@ export default function Signup() {
   };
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", mt: 8, px: 2 }}>
-      <Paper
+    <AuthLayout title="Join us" subtitle="Create an account and start blooming">
+      <Box
         component="form"
         onSubmit={handleSubmit}
-        sx={{ p: 4, width: "100%", maxWidth: 400, display: "grid", gap: 2 }}
+        sx={{ display: "grid", gap: 2 }}
       >
-        <Typography variant="h5">Sign up</Typography>
         <TextField
           label="Name"
           value={name}
@@ -56,16 +56,21 @@ export default function Signup() {
           required
           slotProps={{ htmlInput: { minLength: 8 } }}
         />
-        <Button type="submit" variant="contained" disabled={submitting}>
+        <Button
+          type="submit"
+          variant="contained"
+          size="large"
+          disabled={submitting}
+        >
           {submitting ? "Creating..." : "Create account"}
         </Button>
-        <Typography variant="body2">
+        <Typography variant="body2" align="center">
           Already registered?{" "}
           <Link component={RouterLink} to="/login">
             Login
           </Link>
         </Typography>
-      </Paper>
-    </Box>
+      </Box>
+    </AuthLayout>
   );
 }

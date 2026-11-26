@@ -17,12 +17,18 @@ export default function Header() {
     <AppBar position="static">
       <Toolbar>
         <Typography
-          variant="h6"
           component={RouterLink}
           to="/"
-          sx={{ flexGrow: 1, color: "inherit", textDecoration: "none" }}
+          sx={{
+            flexGrow: 1,
+            color: "inherit",
+            textDecoration: "none",
+            fontFamily: '"Dancing Script", cursive',
+            fontWeight: 700,
+            fontSize: 30,
+          }}
         >
-          MERN Demo
+          🌷 MERN Demo
         </Typography>
 
         {user && (
