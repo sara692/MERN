@@ -12,6 +12,8 @@ In this level we make the app **beautiful and comfortable to look at**. Only the
 
 The goal is a design that is soft, clean, readable and not tiring for the eyes: natural pastel colors, no dark colors.
 
+<img width="1909" height="910" alt="image" src="https://github.com/user-attachments/assets/3a06e8d8-8b34-4763-a252-9fe881bb01bc" />
+
 ---
 
 ## What you will learn
